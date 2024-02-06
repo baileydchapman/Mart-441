@@ -60,6 +60,6 @@ function storyFunction(choice) {
         document.getElementById("choice1").innerHTML = "Complete the purchase";
         document.getElementById("choice2").innerHTML = "Keep exploring";
     } else if (choice == 2 && answer2 == "Leave the store") {
-        document.getElementById("story").innerHTML =("You decide to leave the store. Thanks for shopping!", "", "");
+        document.getElementById("story").innerHTML =("You decide to leave the store. Thanks for shopping!";
     }
 }
