@@ -1,0 +1,1 @@
+I used ChatGPT to help me understand how the code should look. It was extremely helpful. Using the example files, I was still confused on how the overall site should look. I was very happy with how much ChatGPT was able to help me understand the layout.
