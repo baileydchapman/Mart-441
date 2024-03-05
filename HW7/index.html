@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Injustice Artwork Display</title>
+    <style>
+        #artwork-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 300px;
+            max-height: 300px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="artwork-container">
+        <h1>Social Injustice Artwork Display</h1>
+        <div id="artwork-info"></div>
+        <button onclick="displayRandomArtwork()"> Display Social Injustice Artwork </button>
+    </div>
+
+    <script>
+        class Artwork {
+            constructor(title, image, description, author, imageYear) {
+                this.title = title;
+                this.image = image;
+                this.description = description;
+                this.author = author;
+                this.imageYear = imageYear;
+            }
+        }
+
+        const artworks = [
+            new Artwork(
+                "afro.died,T",
+                "https://media.nga.gov/iiif/7ad4bbc3-8d39-42ac-ae12-cc0f7783eb63/full/!740,560/0/default.jpg",
+                "a mixed-media painting that combines elements of traditional Japanese woodblock prints with contemporary urban culture, featuring a geisha with a vibrant afro hairstyle.",
+                "Rozeal",
+                2011
+            ),
+            new Artwork(
+                "¡Cesen Deportación!",
+                "https://media.nga.gov/iiif/1a408a4d-005b-45c1-a002-1cca86b53061/full/!740,560/0/default.jpg",
+                "a powerful protest painting depicting the anguish and injustice faced by immigrants facing deportation, rendered in vibrant colors and bold lines",
+                "Rupert Garcia",
+                1973
+            ),
+            new Artwork(
+                "Magnolia",
+                "https://media.nga.gov/iiif/2e75620a-b0a7-449b-97ad-e2fd08d58566/full/!440,400/0/default.jpg",
+                " Magnolia holds a mirror up to her profile, doubling her image and suggesting the multiple ways that identity may be presented",
+                "Graciela Iturbide",
+                1986
+            ),
+            new Artwork(
+                "Self-Portrait",
+                "https://media.nga.gov/iiif/de711854-181d-4749-ae22-30bfa44b95cc/full/!440,400/0/default.jpg",
+                "a compelling oil painting on hardboard showcasing the artist's intense gaze and rugged features, reflecting his revolutionary spirit and dedication to social causes.",
+                "David Alfaro Siqueiros",
+                1948
+            ),
+            new Artwork(
+                "Prenatal Clinic",
+                "https://media.nga.gov/iiif/66e91768-95a0-48ba-b254-5b91081ee10b/full/!740,560/0/default.jpg",
+                "a striking screenprint on watercolor paper that depicts a poignant scene of expectant mothers waiting for medical care, highlighting Shahn's commitment to social realism and advocacy for healthcare access.",
+                "Ben Shahn",
+                1941
+            )
+        ];
+
+        function displayRandomArtwork() {
+            const randomIndex = Math.floor(Math.random() * artworks.length);
+            const randomArtwork = artworks[randomIndex];
+            const artworkInfo = `
+                <h2>${randomArtwork.title}</h2>
+                <img src="${randomArtwork.image}" alt="${randomArtwork.title}">
+                <p>Description: ${randomArtwork.description}</p>
+                <p>Author: ${randomArtwork.author}</p>
+                <p>Image Year: ${randomArtwork.imageYear}</p>
+            `;
+            document.getElementById("artwork-info").innerHTML = artworkInfo;
+        }
+    </script>
+</body>
+</html>
