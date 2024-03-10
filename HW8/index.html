@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework 8</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img class="image" src="https://tse3.mm.bing.net/th?id=OIP.k2ySnlNFZi96OPrfp5-b0QHaDt&pid=Api&P=0&h=220" alt="Image 1">
+        </div>
+        <div class="quote-container">
+            <p class="quote">Love yourself</p>
+        </div>
+        <div class="shape-container">
+            <div class="shape triangle"></div>
+        <div class="shape square"></div>
+        <div class="shape circle"></div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    var images = ['https://tse3.mm.bing.net/th?id=OIP.k2ySnlNFZi96OPrfp5-b0QHaDt&pid=Api&P=0&h=220', 'https://tse4.mm.bing.net/th?id=OIP.1MraG3AOX5JYL4yM6nKHWwHaD4&pid=Api&P=0&h=220', 'https://tse4.mm.bing.net/th?id=OIP.vYiZw0bpEx4Q8G6M2T9YkAHaE8&pid=Api&P=0&h=220'];
+    var quotes = ['Love yourself', 'Treat people with kindness', 'Be the change you want to see in the world'];
+    var shapes = [
+        { type: 'triangle', color: 'red', size: 50 },
+        { type: 'square', color: 'blue', size: 75 },
+        { type: 'circle', color: 'green', size: 100 }
+    ];
+
+    var currentImageIndex = 0;
+    var currentQuoteIndex = 0;
+    var currentShapeIndex = 0;
+
+    function changeImage() {
+        $('.image').fadeOut('slow', function() {
+            $(this).attr('src', images[currentImageIndex]).fadeIn('slow');
+        });
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+    }
+
+    function changeQuote() {
+        $('.quote').fadeOut('slow', function() {
+            $(this).text(quotes[currentQuoteIndex]).fadeIn('slow');
+        });
+        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+    }
+
+    function moveShape() {
+        var shape = shapes[currentShapeIndex];
+        var $shape = $('<div>').addClass('shape').addClass(shape.type);
+
+        $('.shape-container').append($shape);
+
+        var top = Math.random() * ($('.container').height() - shape.size);
+        var left = Math.random() * ($('.container').width() - shape.size);
+
+        $shape.css({
+            'background-color': shape.color,
+            'width': shape.size + 'px',
+            'height': shape.size + 'px',
+            'top': top + 'px',
+            'left': left + 'px'
+        }).fadeIn('slow').animate({
+            top: top,
+            left: left
+        }, 'slow');
+
+        currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
+    }
+
+    setInterval(changeImage, 5000);
+    setInterval(changeQuote, 5000);
+    setInterval(moveShape, 3000);
+});
+</script>
+</body>
+</html>
