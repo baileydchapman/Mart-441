@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Game</title>
+<style>
+    canvas {
+        border: 1px solid rgb(247, 166, 241);
+    }
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const objects = [
+        { x: 100, y: 200, width: 50, height: 50 },
+        { x: 300, y: 150, width: 40, height: 60 },
+        { x: 450, y: 300, width: 70, height: 70 },
+        { x: 200, y: 400, width: 60, height: 30 },
+        { x: 350, y: 100, width: 80, height: 40 }
+    ];
+
+    const player = {
+        x: 50,
+        y: 50,
+        width: 20,
+        height: 20,
+        speed: 5
+    };
+
+    const collectibles = [
+        { x: 120, y: 220, width: 30, height: 30 },
+        { x: 380, y: 160, width: 25, height: 25 },
+        { x: 470, y: 310, width: 35, height: 35 }
+    ];
+
+    let score = 0;
+
+    function drawObjects() {
+      
+        objects.forEach(obj => {
+            ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+        });
+
+        collectibles.forEach((collectible, index) => {
+    if (
+        player.x < collectible.x + collectible.width &&
+        player.x + player.width > collectible.x &&
+        player.y < collectible.y + collectible.height &&
+        player.y + player.height > collectible.y
+    ) {
+        collectibles.splice(index, 1);
+        score++;
+    }
+});
+
+    
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+  
+    function update() {
+     
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawObjects();
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowUp') {
+                player.y -= player.speed;
+            } else if (event.key === 'ArrowDown') {
+                player.y += player.speed;
+            } else if (event.key === 'ArrowLeft') {
+                player.x -= player.speed;
+            } else if (event.key === 'ArrowRight') {
+                player.x += player.speed;
+            }
+        });
+
+       
+        collectibles.forEach((collectible, index) => {
+            if (
+                player.x < collectible.x + collectible.width &&
+                player.x + player.width > collectible.x &&
+                player.y < collectible.y + collectible.height &&
+                player.y + player.height > collectible.y
+            ) {
+                collectibles.splice(index, 1);
+                score++;
+            }
+        });
+
+        ctx.fillStyle = 'black';
+        ctx.font = '20px Arial';
+        ctx.fillText('Score: ' + score, 10, 30);
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+</script>
+</body>
+</html>
