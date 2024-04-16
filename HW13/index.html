@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Game</title>
+<style>
+    canvas {
+        border: 1px solid rgb(247, 166, 241);
+    }
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const objects = [
+        { x: 100, y: 200, width: 50, height: 50 },
+        { x: 300, y: 150, width: 40, height: 60 },
+        { x: 450, y: 300, width: 70, height: 70 },
+        { x: 200, y: 400, width: 60, height: 30 },
+        { x: 350, y: 100, width: 80, height: 40 }
+    ];
+
+    const player = {
+        x: 50,
+        y: 50,
+        width: 20,
+        height: 20,
+        speed: 5,
+        isJumping: false,
+        jumpHeight: 100,
+        jumpCount: 0
+    };
+
+    const collectibles = [
+        { x: 120, y: 220, width: 30, height: 30, value: 1 },
+        { x: 380, y: 160, width: 25, height: 25, value: 2 },
+        { x: 470, y: 310, width: 35, height: 35, value: 3 }
+    ];
+
+    const spikes = [
+        { x: 200, y: 200, width: 20, height: 20 },
+        { x: 400, y: 300, width: 20, height: 20 },
+        { x: 600, y: 400, width: 20, height: 20 }
+    ];
+
+    let score = 0;
+    let level = 1;
+
+    function drawObjects() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        objects.forEach(obj => {
+            ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+        });
+
+        collectibles.forEach(collectible => {
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(collectible.x, collectible.y, collectible.width, collectible.height);
+        });
+
+        spikes.forEach(spike => {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(spike.x, spike.y, spike.width, spike.height);
+        });
+
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+    function update() {
+        drawObjects();
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === ' ' && !player.isJumping) {
+                player.isJumping = true;
+            }
+        });
+
+        if (player.isJumping) {
+            if (player.jumpCount >= player.jumpHeight) {
+                player.isJumping = false;
+                player.jumpCount = 0;
+            } else {
+                player.y -= player.speed;
+                player.jumpCount += player.speed;
+            }
+        }
+
+        collectibles.forEach(collectible => {
+            collectible.y += 1;
+        });
+
+        spikes.forEach(spike => {
+            spike.y += 1;
+        });
+
+        collectibles.forEach((collectible, index) => {
+            if (
+                player.x < collectible.x + collectible.width &&
+                player.x + player.width > collectible.x &&
+                player.y < collectible.y + collectible.height &&
+                player.y + player.height > collectible.y
+            ) {
+                collectibles.splice(index, 1);
+                score += collectible.value;
+            }
+        });
+
+        spikes.forEach(spike => {
+            if (
+                player.x < spike.x + spike.width &&
+                player.x + player.width > spike.x &&
+                player.y < spike.y + spike.height &&
+                player.y + player.height > spike.y
+            ) {
+                score -= 1;
+            }
+        });
+
+        ctx.fillStyle = 'black';
+        ctx.font = '20px Arial';
+        ctx.fillText('Score: ' + score, 10, 30);
+        ctx.fillText('Level: ' + level, 10, 60);
+
+        if (collectibles.length === 0) {
+            level++;
+            resetGame();
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    function resetGame() {
+        player.x = 50;
+        player.y = 50;
+        collectibles = [
+            { x: 120, y: 220, width: 30, height: 30, value: 1 },
+            { x: 380, y: 160, width: 25, height: 25, value: 2 },
+            { x: 470, y: 310, width: 35, height: 35, value: 3 }
+        ];
+        spikes = [
+            { x: 200, y: 200, width: 20, height: 20 },
+            { x: 400, y: 300, width: 20, height: 20 },
+            { x: 600, y: 400, width: 20, height: 20 }
+        ];
+    }
+
+    update();
+</script>
+</body>
+</html>
