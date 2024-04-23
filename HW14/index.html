@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Homework</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+  <script>
+    const background = new THREE.Color( 'red' );
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const geometry1 = new THREE.BoxGeometry();
+    const material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube1 = new THREE.Mesh(geometry1, material1);
+    scene.add(cube1);
+
+    const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
+    const material2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const sphere = new THREE.Mesh(geometry2, material2);
+    scene.add(sphere);
+
+    const loader = new THREE.GLTFLoader();
+    loader.load('https://github.com/baileydchapman/Mart-441/raw/b10e0ab4c42404cbc73159b8672a8e33218baacb/3D_Isometric_BEDROOM.glb', function (gltf) {
+      model = gltf.scene;
+      scene.add(model);
+    });
+
+    const fontLoader = new THREE.FontLoader();
+    fontLoader.load('https://cdn.jsdelivr.net/npm/three/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+      const textGeometry = new THREE.TextGeometry('Hello Three.js', {
+        font: font,
+        size: 1,
+        height: 0.1
+      });
+      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const text = new THREE.Mesh(textGeometry, textMaterial);
+      text.position.set(-3, 0, 0);
+      scene.add(text);
+    });
+
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    const points = [];
+    points.push(new THREE.Vector3(-2, 0, 0));
+    points.push(new THREE.Vector3(2, 0, 0));
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+    const line = new THREE.Line(lineGeometry, lineMaterial);
+    scene.add(line);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      cube1.rotation.x += 0.01;
+      cube1.rotation.y += 0.01;
+      sphere.rotation.x += 0.01;
+      sphere.rotation.y += 0.01;
+      if (model) {
+        model.rotation.y += 0.01;
+      }
+      renderer.render(scene, camera);
+    }
+
+    camera.position.z = 5;
+
+    animate();
+  </script>
+</body>
+</html>
