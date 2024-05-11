@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pacman-Style Maze Game - Final</title>
+  <style>
+    #maze {
+      width: 600px;
+      height: 600px;
+      border: 2px solid black;
+      position: relative;
+      background-color: black;
+    }
+    .ball {
+      width: 20px;
+      height: 20px;
+      background-color: hotpink;
+      border-radius: 50%;
+      position: absolute;
+    }
+    .star {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 17px solid yellow;
+      position: absolute;
+      transform: rotate(35deg);
+    }
+    .wall {
+      background-color: blue;
+      position: absolute;
+    }
+    #scoreboard {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: white;
+    }
+    #sign {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      color: red;
+      background-color: yellow;
+      padding: 20px;
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div id="maze"></div>
+  <div id="scoreboard">Score: 0</div>
+  <div id="sign">YOU WON. END OF GAME.</div>
+  <script src="script.js"></script>
+</body>
+</html>
